@@ -1,0 +1,16 @@
+What's the time?, getTime
+What time is it?, getTime
+Time?, getTime
+Tell me the time., getTime
+Good Morning!, greetings
+Hi!, greetings
+Good morning Dolores, greetings
+Hey Dolores, greetings
+Hello, greetings
+Hello Dolores, greetings
+What is the date today?, getDate
+What date do we have?, getDate
+Which date do we have?, getDate
+What's the date?, getDate
+These violent delights, haveViolentEnds
+You headin out, toSetDownSomeOfThisNaturalSplendor
