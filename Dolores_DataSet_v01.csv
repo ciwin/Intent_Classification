@@ -1,16 +1,32 @@
-What's the time?, getTime
-What time is it?, getTime
-Time?, getTime
-Tell me the time., getTime
-Good Morning!, greetings
-Hi!, greetings
+Good Morning, greetings
+Hi, greetings
 Good morning Dolores, greetings
 Hey Dolores, greetings
 Hello, greetings
 Hello Dolores, greetings
+Bye, goodBye
+Bye bye, goodBye
+Ciao, goodBye
+Good bye, goodBye
+See you, goodBye
+see you Dolores, goodBye
+Bye Dolores, goodBye
+What's the time, getTime
+What time is it, getTime
+Time?, getTime
+Tell me the time, getTime
 What is the date today?, getDate
 What date do we have?, getDate
 Which date do we have?, getDate
 What's the date?, getDate
 These violent delights, haveViolentEnds
 You headin out, toSetDownSomeOfThisNaturalSplendor
+Save this appointment, saveAppoint
+Please save this appointment, saveAppoint
+Save the folloing appointment, saveAppoint
+Save the following date, saveAppoint
+Save this link for me, saveLink
+Save this link, saveLink
+Please save this link, saveLink
+Save this internet link please, saveLink
+Save this internet link, saveLink
