@@ -1,7 +1,7 @@
 # Intent_Classification
 ## Introduction
 This repo was forked from https://github.com/Dark-Sied/Intent_Classification.
-It is the source code of an intent classifier described in this medium article: https://towardsdatascience.com/a-brief-introduction-to-intent-classification-96fda6b1f557     
+It is the source code of an intent classifier described in this medium article: https://towardsdatascience.com/a-brief-introduction-to-intent-classification-96fda6b1f557.     
 It describes an intent classifier working with word embeddings and an LSTM Network (realized with Keras) capable of recognizing phrases and sentences of 21 different intents.
 
 In this README file, I am going to document the code.
@@ -16,8 +16,7 @@ The training set for the Intent Classification is a csv-file in the following fo
 The file is read as a pandas dataframe:
 
 ```python
-df = pd.read_csv("Dataset.csv", encoding = "latin1",
-names = ["Sentence", "Intent"])
+df = pd.read_csv("Dataset.csv", encoding = "latin1", names = ["Sentence", "Intent"])
 ```
 This command creates an unique list of the intents:
 
@@ -55,8 +54,7 @@ token = Tokenizer(filters = '!"#$%&()*+,-./:;<=>?@[\]^_`{|}~')
 token.fit_on_texts(words)
 max_length = len(max(words, key = len))
 encoded = token.texts_to_sequences(words)
-padded  = pad_sequences(encoded, maxlen = max_length,
-	                  padding = "post")
+padded  = pad_sequences(encoded, maxlen = max_length, padding = "post")
 ```
 
 `fit_on_texts` creates a vocabulary of words (tokens) based on the input words. Each word is represented by an integer number.
@@ -101,7 +99,7 @@ output_one_hot.shape:
 ```
 For every sentence, the intent of the sentence is represented with a one-hot vector of the size 21 (21 is the number of the different intents).
 
-## Defining the Training and Validation Set.
+## Defining the Training and Validation Set
 
 In this code, the data is split into a training set (80%) and a validation set (20%).
 ```python
