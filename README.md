@@ -25,36 +25,37 @@ unique_intents = list(set(df["Intent"]))
 ```
 ## Word Cleaning
 
-Word Cleaning removes all unnecessary characters from the sentences and transforms the sentences into a list of words. The following routine removes all characters other than `A-Z, a-z,` and `0-9`, puts every word in lower case and creates a list of lists, where every sentence is a list of words. The input variable sentences is a list of sentences, every sentence is a string. re is a library for regular expressions. 
-`nltk.tokenize.word_tokenize (sentence)` transforms the sentence into a list of words.
+Word Cleaning removes all unnecessary characters from the sentences and transforms the sentences into a list of words. 
+
+`sentences` is a list of sentences. `re.sub(r'[^ a-z A-Z 0-9]', " ", s)` replaces all characters different from `A-Z, a-z,` and `0-9` with blanks.    
+`word_tokenize` splits each sentence into a list of words. Finally, upper case letters are transformed tolower case letters. The cleaned sentences are stored in `clean_sent` as a list of sentences, and each sentence is a list of words.
 
 ```python
 import re
 from nltk.tokenize import word_tokenize
 
-def cleaning(sentences):
-  words = []
-  for s in sentences:
+clean_sent = []
+for s in sentences:
     clean = re.sub(r'[^ a-z A-Z 0-9]', " ", s)
     w = word_tokenize(clean)
-    words.append([i.lower() for i in w])
-  return words
+    clean_sent.append([i.lower() for i in w])
 ```
 
 ## Tokenizing
 
 Tokenizing is representing every word (“token”) of our vocabulary as a vector, which can be processed by the learning model. 
-We are using the tokenizer from TensorFlow, Keras. words is a list of sentences, every sentence is a list of words (output from Word Cleaning). filters specify the characters that are filtered out in the sentences. 
+We are using the tokenizer from TensorFlow, Keras. `clean_sent` is a list of sentences, every sentence is a list of words (output from Word Cleaning). filters specify the characters that are filtered out in the sentences (not necessary here as our words only contains the characters entences. `re.sub(r'[^ a-z A-Z 0-9]', " ", s)` replaces all characters different from `a-z` and `0-9`).
 
 ```python
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 
 token = Tokenizer(filters = '!"#$%&()*+,-./:;<=>?@[\]^_`{|}~')
-token.fit_on_texts(words)
-max_length = len(max(words, key = len))
-encoded = token.texts_to_sequences(words)
-padded  = pad_sequences(encoded, maxlen = max_length, padding = "post")
+token.fit_on_texts(clean_sent)
+VOCABULARY_SIZE = len(token.word_index) + 1
+MAX_SENT_LENGTH = len(max(clean_sent, key = len))
+encoded_sent    = token.texts_to_sequences(clean_sent)
+padded_sent     = pad_sequences(encoded_sent, maxlen = MAX_SENT_LENGTH, padding = "post")
 ```
 
 `fit_on_texts` creates a vocabulary of words (tokens) based on the input words. Each word is represented by an integer number.
@@ -90,7 +91,7 @@ Now, this representation of the labels (intents) is transferred into a one-hot e
 from sklearn.preprocessing import OneHotEncoder
 
 one_hot = OneHotEncoder(sparse = False)
-output_one_hot = one_hot.fit_transform(np_encoded))
+output_one_hot = one_hot.fit_transform(np_encoded)
 ```
 output_one_hot is a 2-dimensional numpy.array with the following shape:
 ```python
