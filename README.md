@@ -44,7 +44,7 @@ for s in sentences:
 ## Tokenizing
 
 Tokenizing is representing every word of our vocabulary as a number ("token"), which can be processed by the learning model.
-We are using the tokenizer from TensorFlow, Keras. `clean_sent` is a list of sentences, every sentence is a list of words (output from Word Cleaning). `filters specify the characters that are filtered out in the sentences (not necessary here as our words only contains the characters `a-z` and `0-9`).
+We are using the tokenizer from TensorFlow, Keras. `clean_sent` is a list of sentences, every sentence is a list of words (output from Word Cleaning). `filters` specify the characters that are filtered out in the sentences (not necessary here as our words only contains the characters `a-z` and `0-9`).
 
 ```python
 from keras.preprocessing.text import Tokenizer
