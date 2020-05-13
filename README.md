@@ -44,7 +44,7 @@ for s in sentences:
 ## Tokenizing
 
 Tokenizing is representing every word of our vocabulary as a number ("token"), which can be processed by the learning model.
-We are using the tokenizer from TensorFlow, Keras. `clean_sent` is a list of sentences, every sentence is a list of words (output from Word Cleaning). filters specify the characters that are filtered out in the sentences (not necessary here as our words only contains the characters `a-z` and `0-9`).
+We are using the tokenizer from TensorFlow, Keras. `clean_sent` is a list of sentences, every sentence is a list of words (output from Word Cleaning). `filters specify the characters that are filtered out in the sentences (not necessary here as our words only contains the characters `a-z` and `0-9`).
 
 ```python
 from keras.preprocessing.text import Tokenizer
@@ -58,47 +58,44 @@ encoded_sent    = token.texts_to_sequences(clean_sent)
 padded_sent     = pad_sequences(encoded_sent, maxlen = MAX_SENT_LENGTH, padding = "post")
 ```
 
-`fit_on_texts` creates a vocabulary of words (tokens) based on the input words. Each word is represented by an integer number.
+`Tokenizer.fit_on_texts` creates a vocabulary of words (tokens) based on the input words. Each word is represented by an integer number.
 
-`text_to_sequences(words)` transfers sentences (list of lists of words) into a list of lists of integer numbers. Each number is the representation (“token”) of a particular word of the vocabulary.
+`Tokenizer.text_to_sequences(words)` transfers sentences (list of lists of words) into a list of lists of integer numbers. Each number is the representation (“token”) of a particular word of the vocabulary.
 
 `pad_sequences(encoded, maxlen = max_length, padding = "post")` reads a list of lists of integer values (the tokens) and the maximum length of a sentence. It returns a list of lists of tokens, each sequence (sentence) has the length max_length. If a sentence is shorter than `max_length`, it is filled (“padded”) with 0 at the end.
 
 ## Tokenizing and Preparing the Intents (Targets)
 
-`unique_intent` is a list of unique intents.
+`intents_unique` is a list of unique intents.
 
 ```python
-out_token = Tokenizer(filters = '!"#$%&()*+,-./:;<=>?@[\]^_`{|}~')
-out_token.fit_on_texts(unique_intent)
-out_encoded = out_token.texts_to_sequences(intents)
+token_intents  = Tokenizer(filters = '!"#$%&()*+,-/:;<=>?@[\]^`{|}~')
+token_intents.fit_on_texts(intents_unique)
+encoded_output = token_intents.texts_to_sequences(intents)
+encoded_output = np.array(encoded_output).reshape(len(encoded_output), 1)
 ```
 
-`intents` is a `pandas.core.series` of intents. The length of the series is equal to the number of sentences.
+`intents` is a `pandas.core.series` of intents (string). The length of the series is equal to the number of sentences.
 
-`out_encoded` is a list of lists. Every list has one element: The token (integer value) of the intent of the corresponding sentence. 
+`encoded_output` is a list of lists. Every list has one element: The token (integer value) of the intent of the corresponding sentence. 
 
+The `np.array.reshape` command transforms `encoded_output` into a numpy-array with the following shape:
 ```python
-import numpy as np
-np_encoded = np.array(out_encoded).reshape(len(encoded_output), 1)
+encoded_output.shape`: (346, 1)
 ```
-This command transforms `out_encoded` into a numpy-array with the following shape:
-```python
-encoded_output.shape`: (1113, 1)
-```
-Now, this representation of the labels (intents) is transferred into a one-hot encoding:
+Now, this representation of the labels (intents) is transferred to a one-hot encoding:
 ```python
 from sklearn.preprocessing import OneHotEncoder
 
 one_hot = OneHotEncoder(sparse = False)
-output_one_hot = one_hot.fit_transform(np_encoded)
+output_one_hot = one_hot.fit_transform(encoded_output)
 ```
 output_one_hot is a 2-dimensional numpy.array with the following shape:
 ```python
 output_one_hot.shape:
->> (1113, 21)
+>> (346, 14)
 ```
-For every sentence, the intent of the sentence is represented with a one-hot vector of the size 21 (21 is the number of the different intents).
+For every sentence, the intent of the sentence is represented with a one-hot vector of the size 14 (14 is the number of the different intents).
 
 ## Defining the Training and Validation Set
 
@@ -162,7 +159,7 @@ model.compile(loss = "categorical_crossentropy", optimizer = "adam",
               metrics = ["accuracy"])
 model.summary()
 ```
-This compiles the model and makes it ready for `training.model.summary()` 
+This compiles the model and makes it ready for training. `model.summary()` 
 shows a summary of the model.
 
 ## Training the Model
