@@ -103,16 +103,18 @@ In this code, the data is split into a training set (80%) and a validation set (
 ```python
 from sklearn.model_selection import train_test_split
 
-train_X, val_X, train_Y, val_Y = train_test_split(padded, output_one_hot, shuffle = True, test_size = 0.2)
+train_X, val_X, train_Y, val_Y = train_test_split(padded_sent, output_one_hot, shuffle = True, test_size = 0.1)
 ```
+```
+Shape of train_X = (311, 12) and train_Y = (311, 14)
+Shape of val_X = (35, 12) and val_Y = (35, 14)
 
-Shape of train_X = (890, 28) and train_Y = (890, 21)
-Shape of val_X = (223, 28) and val_Y = (223, 21)
-
-890:	Number of sentences in the training set
-223:	Number of sentences in the validation set
-28:		Maximum length of a sentence
-21: 	Number of intents and size of the one-hot output vector
+NUM_SENT:            346
+NUM_INTENTS:         346
+NUM_INTENTS_UNIQUE:  14
+VOCABULARY_SIZE:     284
+MAX_SENT_LENGTH:     12
+````
 
 ## Defining and Compiling the Machine Learning Model
 
