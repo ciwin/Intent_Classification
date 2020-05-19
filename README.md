@@ -126,7 +126,7 @@ from keras.layers import Dense, LSTM, Bidirectional, Embedding,
 
 model = Sequential()
 model.add(Embedding(VOCABULARY_SIZE, 128, input_length = MAX_SENT_LENGTH, 
-          embeddings_initializer="uniform", trainable = False))
+          embeddings_initializer="uniform", trainable = True))
 model.add(Bidirectional(LSTM(128)))
 model.add(Dense(32, activation = "relu"))
 model.add(Dropout(0.5))
