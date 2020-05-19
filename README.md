@@ -107,7 +107,7 @@ train_X, val_X, train_Y, val_Y = train_test_split(padded_sent, output_one_hot, s
 ```
 ```
 Shape of train_X = (311, 12) and train_Y = (311, 14)
-Shape of val_X = (35, 12) and val_Y = (35, 14)
+Shape of val_X   = (35, 12)  and val_Y   = (35, 14)
 
 NUM_SENT:            346
 NUM_INTENTS:         346
@@ -124,12 +124,9 @@ from keras.models import Sequential, load_model
 from keras.layers import Dense, LSTM, Bidirectional, Embedding, 
                          Dropout
 
-# vocab_size:  492
-# max_length:  28
-
 model = Sequential()
-model.add(Embedding(vocab_size, 128, input_length = max_length, 
-          trainable = False))
+model.add(Embedding(VOCABULARY_SIZE, 128, input_length = MAX_SENT_LENGTH, 
+          embeddings_initializer="uniform", trainable = False))
 model.add(Bidirectional(LSTM(128)))
 model.add(Dense(32, activation = "relu"))
 model.add(Dropout(0.5))
@@ -137,9 +134,15 @@ model.add(Dense(21, activation = "softmax"))
 ```
 ### Embedding-Layer
 
-Changes an input integer value into a dense vector with 128 values. 
+Changes an input integer value into a dense word vector with 128 values.    
+Documentation: https://keras.io/api/layers/core_layers/embedding/     
+128 is the output dimension. Each word is represented by a 128-dimensional dense word vector.
+The embeddings are randomly initialized. It is also possible to load pre-trained word embeddings pre-trained on a larger text corpus (see: https://blog.keras.io/using-pre-trained-word-embeddings-in-a-keras-model.html). 
+If pre-trained word vectors are used, it usually makes no sense to train them on the much smaller intent recognition task. Therefore `traininable should be set to `False`.
 
-Bidirectional-LSTM Layer with 128 units
+### LSTM Layer
+
+Bidirectional-LSTM Layer with 128 hidden units
 
 ### Dense Layer 
 
@@ -156,6 +159,9 @@ Dropout consists of randomly setting a fraction rate of input units to 0 at each
 ### Dense-Layer
 
 with 21 output units for the 21 intents.
+
+### Compiling the Model
+
 ```python
 model.compile(loss = "categorical_crossentropy", optimizer = "adam", 
               metrics = ["accuracy"])
